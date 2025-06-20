@@ -69,7 +69,7 @@ This project, typical of university assignments, prioritizes functional correctn
 
 ## Author
 
-Kampouropoulos Georgios
+Kampouropoulos Georgios<br>
 MEng Mechanical Engineering and Aeronautics
 University of Patras
 

@@ -85,6 +85,11 @@ for i = 1:length(method_vector)
         active_displacements = Global_Displacements_Active(1:Node_DoF:end);
         active_rotations = Global_Displacements_Active(2:Node_DoF:end);
     end
+    % --- FIX: Correct the sign of rotation for the Timoshenko beam models ---
+    if strcmp(method_vector(i), "Shear Reduced") || strcmp(method_vector(i), "Shear Full")
+        active_rotations = -active_rotations;
+    end
+    % ------------------------------------------------------------------------
 
     % Build the complete result vectors, including the fixed node (w=0, theta=0)
     T{i} = [0; active_displacements]; % Now the vector has span = Node_No
@@ -186,6 +191,11 @@ for i = 1:3
             active_displacements = Global_Displacements_Active(1:Node_DoF:end);
             active_rotations = Global_Displacements_Active(2:Node_DoF:end);
         end
+        % --- FIX: Correct the sign of rotation for the Timoshenko beam models ---
+        if strcmp(method_vector(j), "Shear Reduced") || strcmp(method_vector(j), "Shear Full")
+            active_rotations = -active_rotations;
+        end
+        % ------------------------------------------------------------------------
     
         % Build the complete result vectors, including the fixed node (w=0, theta=0)
         T_100{i,j} = [0; active_displacements]; % Now the vector has span = Node_No
@@ -246,8 +256,8 @@ end
 
 %% 5. Solution for L/h = (2:150) and user specified Element No
 
-L_h = 2:1:150;                                                                   % L/h from 2 to 150
-h_loop = L ./ L_h;                                                               % thickness for each L/h
+L_h = 2:1:150;                             % L/h from 2 to 150
+h_loop = L ./ L_h;                                  % thickness for each L/h
 
 w_tip = zeros(length(method_vector), numel(L_h));
 
